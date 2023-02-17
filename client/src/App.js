@@ -5,7 +5,7 @@ import {
   InMemoryCache
 } from '@apollo/client';
 import React from 'react';
-import { BrowseRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Login from './pages/Login';
 import NoMatch from './pages/NoMatch';
 import Profile from './pages/Profile';
@@ -41,8 +41,12 @@ function App() {
               <Route path='/' element={<Home />} />
               <Route path='/login' element={<Login />} />
               <Route path='/signup' element={<Signup />} />
-              <Route path='/profile' element={<Profile />} />
-              <Route path='/thought' element={<SingleThought />} />
+              <Route path='/profile'>
+                <Route path=':username' element={<Profile />} />
+                <Route path='' element={<Profile />} />
+              </Route>
+              <Route path='/thought/:id' element={<SingleThought />} />
+              <Route path='*' element={<NoMatch />} />
             </Routes>
           </div>
           <Footer />
