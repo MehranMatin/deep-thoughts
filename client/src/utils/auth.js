@@ -20,9 +20,7 @@ class AuthService {
       const decoded = decode(token);
       if (decoded.exp < Date.now() / 1000) {
         return true;
-      } else {
-        return false;
-      }
+      } else return false;
     } catch (err) {
       return false;
     }
@@ -52,4 +50,5 @@ class AuthService {
 }
 
 // instantiate a new version of a new JS class called AuthService for every component that imports it. This isn't always necessary, but it does ensure we are using a new version of the functionality and takes some of the risk out of leaving remnant data hanging around
-export default new AuthService();
+const AuthServ = new AuthService();
+export default AuthServ;

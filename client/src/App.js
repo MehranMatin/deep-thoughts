@@ -7,16 +7,16 @@ import {
 import { setContext } from '@apollo/client/link/context';
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import Login from './pages/Login';
-import NoMatch from './pages/NoMatch';
-import Profile from './pages/Profile';
-import Signup from './pages/Signup';
-import SingleThought from './pages/SingleThought';
 
 import Footer from './components/Footer';
 import Header from './components/Header';
 
 import Home from './pages/Home';
+import Login from './pages/Login';
+import NoMatch from './pages/NoMatch';
+import Profile from './pages/Profile';
+import Signup from './pages/Signup';
+import SingleThought from './pages/SingleThought';
 
 // API endpoint
 const httpLink = createHttpLink({

@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from '@apollo/client';
+import { useQuery } from '@apollo/client';
 import React from 'react';
 import { Navigate, useParams } from 'react-router-dom';
 import FriendList from '../components/FriendList';
