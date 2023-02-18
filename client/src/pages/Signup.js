@@ -1,7 +1,16 @@
 import React, { useState } from 'react';
 
+import { useMutation } from '@apollo/client';
+import { ADD_USER } from '../utils/mutations';
+
 const Signup = () => {
-  const [formState, setFormState] = useState({ username: '', email: '', password: '' });
+  const [formState, setFormState] = useState({
+    username: '',
+    email: '',
+    password: ''
+  });
+
+  const [addUser, { error }] = useMutation(ADD_USER);
 
   // update state based on form input changes
   const handleChange = (event) => {
@@ -9,13 +18,25 @@ const Signup = () => {
 
     setFormState({
       ...formState,
-      [name]: value,
+      [name]: value
     });
   };
 
-  // submit form
+  // submit form (notice the async!)
   const handleFormSubmit = async (event) => {
     event.preventDefault();
+
+    // use try/catch instead of promises to handle errors
+    //  try...catch block functionality is especially useful with asynchronous code such as Promises. This way, we can use async/await instead of .then() and .catch() method-chaining while still being able to handle any errors that may occur
+    try {
+      // execute addUser mutation and pass in variable data from form
+      const { data } = await addUser({
+        variables: { ...formState }
+      });
+      console.log(data);
+    } catch (e) {
+      console.error(e);
+    }
   };
 
   return (
@@ -56,6 +77,7 @@ const Signup = () => {
                 Submit
               </button>
             </form>
+            {error && <div>Sign up failed</div>}
           </div>
         </div>
       </div>
