@@ -1,12 +1,15 @@
-import { useQuery } from '@apollo/client';
+import { useMutation, useQuery } from '@apollo/client';
 import React from 'react';
 import { Navigate, useParams } from 'react-router-dom';
 import FriendList from '../components/FriendList';
 import ThoughtList from '../components/ThoughtList';
 import Auth from '../utils/auth';
+import { ADD_FRIEND } from '../utils/mutations';
 import { QUERY_ME, QUERY_USER } from '../utils/queries';
 
 const Profile = (props) => {
+  const [addFriend] = useMutation(ADD_FRIEND);
+
   const { username: userParam } = useParams();
 
   // if there isn't a value for userParam(), we'll execute QUERY_ME
@@ -34,12 +37,31 @@ const Profile = (props) => {
     );
   }
 
+  const handleClick = async () => {
+    try {
+      await addFriend({
+        variables: { id: user._id }
+      });
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
   return (
     <div>
       <div className='flex-row mb-3'>
         <h2 className='bg-dark text-secondary p-3 display-inline-block'>
           Viewing {userParam ? `${user.username}'s` : 'your'} profile.
         </h2>
+
+        {
+          // userParam variable is only defined when the route includes a username, thus the button won't display when route is simply /profile
+          userParam && (
+            <button className='btn ml-auto' onClick={handleClick}>
+              Add Friend
+            </button>
+          )
+        }
       </div>
 
       <div className='flex-row justify-space-between mb-3'>
