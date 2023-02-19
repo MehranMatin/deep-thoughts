@@ -1,13 +1,13 @@
+import { useQuery } from '@apollo/client';
 import React from 'react';
 import { useParams } from 'react-router-dom';
-
-import { useQuery } from '@apollo/client';
+import ReactionForm from '../components/ReactionForm';
 import ReactionList from '../components/ReactionList';
+import Auth from '../utils/auth';
 import { QUERY_THOUGHT } from '../utils/queries';
 
 const SingleThought = (props) => {
   const { id: thoughtId } = useParams();
-
   const { loading, data } = useQuery(QUERY_THOUGHT, {
     // The id property on the variables object will become the $id parameter in the GraphQL query.
     variables: { id: thoughtId }
@@ -33,12 +33,10 @@ const SingleThought = (props) => {
         </div>
       </div>
 
-      {
-        // prevent rendering the reactions component if the array is empty
-        thought.reactionCount > 0 && (
-          <ReactionList reactions={thought.reactions} />
-        )
-      }
+      {thought.reactionCount > 0 && (
+        <ReactionList reactions={thought.reactions} />
+      )}
+      {Auth.loggedIn() && <ReactionForm thoughtId={thought._id} />}
     </div>
   );
 };
